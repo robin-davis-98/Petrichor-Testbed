@@ -12,3 +12,4 @@ void opengl_DestroyContext(GL_Renderer_Context* context);
 void opengl_MakeCurrent(GL_Renderer_Context* context);
 void opengl_SwapBuffers(GL_Renderer_Context* context);
 void* opengl_GetProcAddress(const char* name);
+void opengl_PlatformRenderViewports();

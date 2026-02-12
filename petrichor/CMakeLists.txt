@@ -20,6 +20,9 @@ target_sources(petrichor
         ${CMAKE_CURRENT_SOURCE_DIR}/src/events/event.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/graphics/renderer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opengl/renderer_opengl.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/debug/debug_ui.cpp
 )
 
 target_compile_definitions(petrichor
@@ -44,6 +47,11 @@ if (BACKEND STREQUAL "WIN32")
     target_link_libraries(petrichor PRIVATE
             user32
             gdi32
-            opengl32.lib
     )
 endif()
+
+target_link_libraries(petrichor PRIVATE
+    imgui
+    glad
+    opengl32.lib
+)

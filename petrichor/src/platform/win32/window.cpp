@@ -6,17 +6,19 @@
 #include "platform/platform.h"
 #include "platform/win32/win32_internal.h"
 
+#include <imgui.h>
+#include <imgui_impl_win32.h>
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK win32_event_callback(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam) {
     LRESULT result = 0;
 
-    switch (msg) {
-        case WM_ACTIVATE: {
-            // If the window is being activated, make sure focus is set
-            if (LOWORD(wParam) != WA_INACTIVE) {
-                SetFocus(handle);
-            }
-        } break;
+    if (ImGui_ImplWin32_WndProcHandler(handle, msg, wParam, lParam)) {
+        return true;
+    }
 
+    switch (msg) {
         case WM_CLOSE: {
             DestroyWindow(handle);
         } break;
@@ -58,6 +60,7 @@ void win32_Create_Window(Win32_Window_Data* window_data, const WindowProperties&
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.lpszClassName = "Petrichor Window";
     wc.lpfnWndProc = win32_event_callback;
+    wc.hbrBackground = NULL;
 
     if (!RegisterClassA(&wc)) {
         return;
@@ -149,19 +152,6 @@ void window_SetFlags(Window* window, uint32_t flags) {
         SetForegroundWindow(internal->handle);
         SetFocus(internal->handle);
     }
-
-    std::cout << "\n--- WINDOW STATE CHANGE ---" << std::endl;
-    std::cout << "Style:       " << ((flags & WINDOW_FLAG_FULLSCREEN) ? "[FULLSCREEN] " : "")
-                                  << ((flags & WINDOW_FLAG_BORDERLESS) ? "[BORDERLESS] " : "[WINDOWED]   ")
-                                  << ((flags & WINDOW_FLAG_HIDDEN)     ? "[HIDDEN]"     : "[VISIBLE]") << std::endl;
-
-    std::cout << "Physical:    " << w << "x" << h << " at (" << x << "," << y << ")" << std::endl;
-
-    std::cout << "Memory:      [Windowed: " << window->properties.windowed_width << "x" << window->properties.windowed_height << "] "
-              << "[Internal: " << window->properties.internal_resolution_width << "x" << window->properties.internal_resolution_height << "]" << std::endl;
-
-    std::cout << "Renderer:    " << window->properties.render_resolution_width << "x" << window->properties.render_resolution_height << std::endl;
-    std::cout << "---------------------------\n" << std::endl;
 }
 
 void window_Hide(Window* window) {

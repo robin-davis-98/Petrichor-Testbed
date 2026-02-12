@@ -1,6 +1,7 @@
 #include "app/app.h"
 #include "platform/platform.h"
-#include <glad/glad.h>
+#include "debug/debug_ui.h"
+#include <imgui.h>
 
 #include <iostream>
 
@@ -17,12 +18,6 @@ App app_Create() {
     event_Init(&app.eventQueue);
     window_Create(&app.window, &app.eventQueue);
     renderer_Init(&app.renderer, RENDERER_BACKEND_OPENGL, &app.window);
-
-    glGenBuffers(1, &app.vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, app.vbo);
-
-    glGenVertexArrays(1, &app.vao);
-    glBindVertexArray(app.vao);
 
     window_Show(&app.window);
 
@@ -72,11 +67,21 @@ void app_Update(App& app) {
     window_Update(&app.window, app.eventQueue);
     app_ProcessEvents(app);
 
+
+
+    renderer_BeginFrame(&app.renderer);
+
     float red = 29.0f / 255.0f;
     float green = 37.0f / 255.0f;
     float blue = 45.0f / 255.0f;
-
     renderer_Clear(&app.renderer, red, green , blue, 1.0f);
+
+    ImGuiDockNodeFlags dockFlags = ImGuiDockNodeFlags_PassthruCentralNode;
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), dockFlags);
+    debug_RenderUI(&app.window, &app.renderer);
+
+
+    renderer_EndFrame(&app.renderer);
 
 
 

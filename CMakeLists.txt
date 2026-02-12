@@ -11,9 +11,29 @@ set(BACKEND "WIN32" CACHE STRING "Which backend to use")
 
 set_property(CACHE BACKEND PROPERTY STRINGS "WIN32")
 
-
 set(RUNTIME_NAME "game")
 #set(WINDOW_TITLE "Window")
 
 add_subdirectory(petrichor)
 add_subdirectory(game)
+
+install(TARGETS game
+        RUNTIME DESTINATION bin)
+
+install(TARGETS petrichor
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION bin
+        ARCHIVE DESTINATION lib
+)
+
+if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/game/assets")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/game/assets" DESTINATION .)
+endif()
+
+set(CPACK_PACKAGE_NAME "Petrichor")
+set(CPACK_PACKAGE_VENDOR "Robin Davis")
+set(CPACK_PACKAGE_VERSION "0.0.1")
+
+set(CPACK_GENERATOR "ZIP;7Z")
+
+include(CPack)

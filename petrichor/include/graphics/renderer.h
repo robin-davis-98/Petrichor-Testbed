@@ -17,3 +17,6 @@ bool renderer_Init(Renderer* renderer, RendererBackend backend, void* window_han
 void renderer_Clear(Renderer* renderer, float r, float g, float b, float a);
 void renderer_Resize(Renderer* renderer, uint32_t width, uint32_t height);
 void renderer_Present(Renderer* renderer);
+
+void renderer_BeginFrame(Renderer* renderer);
+void renderer_EndFrame(Renderer* renderer);

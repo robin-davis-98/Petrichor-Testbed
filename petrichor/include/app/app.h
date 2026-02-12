@@ -11,9 +11,6 @@ struct ENGINE_API App {
     EventQueue eventQueue;
 
     bool running;
-
-    uint32_t vao;
-    uint32_t vbo;
 };
 
 ENGINE_API App app_Create();
