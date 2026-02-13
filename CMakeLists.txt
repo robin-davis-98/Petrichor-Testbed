@@ -21,10 +21,14 @@ install(TARGETS game
         RUNTIME DESTINATION bin)
 
 install(TARGETS petrichor
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION bin
+        RUNTIME DESTINATION .
+        LIBRARY DESTINATION .
         ARCHIVE DESTINATION lib
 )
+
+if(EXISTS "${CMAKE_SOURCE_DIR}/README.md")
+    install(FILES "${CMAKE_SOURCE_DIR}/README.md" DESTINATION .)
+endif()
 
 if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/game/assets")
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/game/assets" DESTINATION .)
