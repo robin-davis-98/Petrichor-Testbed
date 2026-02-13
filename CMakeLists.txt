@@ -36,7 +36,7 @@ endif()
 
 set(CPACK_PACKAGE_NAME "Petrichor")
 set(CPACK_PACKAGE_VENDOR "Robin Davis")
-set(CPACK_PACKAGE_VERSION "0.0.1")
+set(CPACK_PACKAGE_VERSION "0.0.2")
 
 set(CPACK_GENERATOR "ZIP;7Z")
 
