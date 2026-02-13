@@ -18,7 +18,7 @@ add_subdirectory(petrichor)
 add_subdirectory(game)
 
 install(TARGETS game
-        RUNTIME DESTINATION bin)
+        RUNTIME DESTINATION .)
 
 install(TARGETS petrichor
         RUNTIME DESTINATION .

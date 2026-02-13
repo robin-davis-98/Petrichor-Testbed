@@ -7,6 +7,8 @@ add_library(petrichor SHARED)
 
 add_subdirectory(vendors)
 
+set_target_properties(petrichor PROPERTIES PREFIX "")
+
 target_include_directories(petrichor
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src
